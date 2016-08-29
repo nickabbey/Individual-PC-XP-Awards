@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root version="3.0" release="3">
+	<announcement text="Individual PC XP Awards extension v0.1 by Nick Abbey.\rAllows Players and GM's to exclude a PC from XP Awards" font="emotefont" />
+
+	<properties>
+		<name>Individual PC XP Awards</name>
+		<version>1</version>
+		
+		<author>Nick Abbey</author>
+		<description>Allows Players and GM's to exclude a PC from XP Awards</description>
+		
+		<ruleset>
+			<name>3.5E</name>
+		</ruleset>
+		<ruleset>
+			<name>PFRPG</name>
+		</ruleset>
+	</properties>
+
+	<base>
+		<windowclass name="charsheet_main" merge="join">
+			<sheetdata>
+				<!--New-->
+				<button_checkbox name="receivesxp">
+					<anchored to="levelframe" position="insidetopleft" offset="20,35" width="10" height="10"/>
+					<default>1</default>
+				</button_checkbox>
+				<!--End New-->		
+			</sheetdata>
+		</windowclass>
+	</base>
+</root>
