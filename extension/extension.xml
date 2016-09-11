@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<!-- 
-  Please see the license.html file included with this distribution for 
+<!--
+  Please see the license.html file included with this distribution for
   attribution and copyright information.
 -->
 
@@ -11,10 +11,10 @@
 	<properties>
 		<name>Individual PC XP Awards</name>
 		<version>1</version>
-		
+
 		<author>Nick Abbey</author>
 		<description>Allows Players and GM's to exclude a PC from XP Awards</description>
-		
+
 		<ruleset>
 			<name>3.5E</name>
 		</ruleset>
@@ -23,15 +23,16 @@
 		</ruleset>
 	</properties>
 
-	<base>
+    <base>
+        <script name="PartyManager2" file="ps/scripts/manager_ps2.lua" />
 		<windowclass name="charsheet_main" merge="join">
 			<sheetdata>
 				<!--New-->
 				<button_checkbox name="receivesxp">
 					<anchored to="levelframe" position="insidetopleft" offset="20,35" width="10" height="10"/>
 					<default>1</default>
-				</button_checkbox>
-				<!--End New-->		
+                </button_checkbox>
+				<!--End New-->
 			</sheetdata>
 		</windowclass>
 	</base>
