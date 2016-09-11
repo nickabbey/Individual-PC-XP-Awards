@@ -265,7 +265,8 @@ function awardXP(nXP)
 		if sClass == "charsheet" and sRecord then
 			local nodePC = DB.findNode(sRecord);
 			if nodePC then
-                console("Test")
+                local test = "testing"
+                console(test)
 				local sName = DB.getValue(v, "name", "");
 				table.insert(aParty, { name = sName, node = nodePC } );
 			end
