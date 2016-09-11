@@ -151,6 +151,7 @@ function linkPCFields(nodePS)
 	PartyManager.linkRecordField(nodeChar, nodePS, "race", "string");
 	PartyManager.linkRecordField(nodeChar, nodePS, "level", "number");
 	PartyManager.linkRecordField(nodeChar, nodePS, "exp", "number");
+	PartyManager.linkRecordField(nodeChar, nodePS, "receivesxp", "number");
 	PartyManager.linkRecordField(nodeChar, nodePS, "expneeded", "number");
 
 	PartyManager.linkRecordField(nodeChar, nodePS, "senses", "string");
@@ -217,55 +218,22 @@ end
 -- XP DISTRIBUTION
 --
 
-function awardQuestsToParty(nodeEntry)
-	local nXP = 0;
-	if nodeEntry then
-		if DB.getValue(nodeEntry, "xpawarded", 0) == 0 then
-			nXP = DB.getValue(nodeEntry, "xp", 0);
-			DB.setValue(nodeEntry, "xpawarded", "number", 1);
-		end
-	else
-		for _,v in pairs(DB.getChildren("partysheet.quests")) do
-			if DB.getValue(v, "xpawarded", 0) == 0 then
-				nXP = nXP + DB.getValue(v, "xp", 0);
-				DB.setValue(v, "xpawarded", "number", 1);
-			end
-		end
-	end
-	if nXP ~= 0 then
-		awardXP(nXP);
-	end
-end
 
-function awardEncountersToParty(nodeEntry)
-	local nXP = 0;
-	if nodeEntry then
-		if DB.getValue(nodeEntry, "xpawarded", 0) == 0 then
-			nXP = DB.getValue(nodeEntry, "exp", 0);
-			DB.setValue(nodeEntry, "xpawarded", "number", 1);
-		end
-	else
-		for _,v in pairs(DB.getChildren("partysheet.encounters")) do
-			if DB.getValue(v, "xpawarded", 0) == 0 then
-				nXP = nXP + DB.getValue(v, "exp", 0);
-				DB.setValue(v, "xpawarded", "number", 1);
-			end
-		end
-	end
-	if nXP ~= 0 then
-		awardXP(nXP);
-	end
-end
-
-function awardXP(nXP) 
+function awardXP(nXP)
 	-- Determine members of party
 	local aParty = {};
 	for _,v in pairs(DB.getChildren("partysheet.partyinformation")) do
 		local sClass, sRecord = DB.getValue(v, "link");
 		if sClass == "charsheet" and sRecord then
-			local nodePC = DB.findNode(sRecord);
-			if nodePC then
-                console("Test")
+			local nodePC = DB.findNode(sRecord)
+            console("test")
+			console(nodePC)
+-- NEW: sets local receiveXP to the value of the checkbox named "receivexp" on the PC's charsheet_main 
+			local nodePCReceivesXP = DB.getValue("charsheet.receivesxp", 1);
+-- NEW: adds condition that nodePCReceivesXP be true
+			console(nodePCReceivesXP);
+            console("Test")
+			if nodePC and nodePCReceivesXP then
 				local sName = DB.getValue(v, "name", "");
 				table.insert(aParty, { name = sName, node = nodePC } );
 			end
@@ -280,7 +248,7 @@ function awardXP(nXP)
 		nAverageSplit = 0;
 	end
 	local nFinalSplit = math.max((nXP - ((#aParty - 1) * nAverageSplit)), 0);
-	
+
 	-- Award XP
 	for _,v in ipairs(aParty) do
 		local nAmount;
@@ -289,7 +257,7 @@ function awardXP(nXP)
 		else
 			nAmount = nAverageSplit;
 		end
-		
+
 		if nAmount > 0 then
 			local nNewAmount = DB.getValue(v.node, "exp", 0) + nAmount;
 			DB.setValue(v.node, "exp", "number", nNewAmount);
@@ -297,7 +265,7 @@ function awardXP(nXP)
 
 		v.given = nAmount;
 	end
-	
+
 	-- Output results
 	local msg = {font = "msgfont"};
 	msg.icon = "xp";
