@@ -1,6 +1,7 @@
 #!/bin/bash
 rm -f individualXPawards.ext
 cd extension
-zip -r ../individualXPawards.ext . -x "*.swp" -x "*/\.DS_Store"
+find . -name ".DS_Store" -delete
+zip -r ../individualXPawards.ext . -x "*.swp" -x ".*.swp"
 cd ..
 
